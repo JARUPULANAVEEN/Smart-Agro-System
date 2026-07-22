@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Agro Dashboard</title>
+    <link rel="stylesheet" href="f1.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Language Selector -->
+<div class="language-selector">
+    <button class="lang-toggle" id="langBtn" onclick="toggleLanguageMenu()">English</button>
+    <div class="lang-menu" id="langMenu" style="display: none;">
+        <button class="lang-option" onclick="changeLanguage('en')">English</button>
+        <button class="lang-option" onclick="changeLanguage('hi')">हिंदी</button>
+        <button class="lang-option" onclick="changeLanguage('te')">తెలుగు</button>
+    </div>
+</div>
+
+<!-- Login on the right side -->
+<div class="auth-links">
+    <button id="loginBtn" class="auth-link">Login</button>
+</div>
+<div id="profileMenu" class="profile-menu"></div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <input type="text" id="loginName" placeholder="Name" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit" class="modal-btn">Login</button>
+            <p class="form-toggle">Don't have an account? <a href="#" onclick="switchToRegister(event)">Register here</a></p>
+        </form>
+        <p id="loginMessage" style="text-align: center; margin-top: 10px; color: #2e7d32;"></p>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeRegisterModal()">&times;</span>
+        <h2>Register</h2>
+        <form id="registerForm" onsubmit="handleRegister(event)">
+            <input type="text" id="registerName" placeholder="Full Name" required>
+            <input type="email" id="registerEmail" placeholder="Email" required>
+            <input type="password" id="registerPassword" placeholder="Password" required>
+            <input type="password" id="registerConfirmPassword" placeholder="Confirm Password" required>
+            <button type="submit" class="modal-btn">Register</button>
+            <p class="form-toggle">Already have an account? <a href="#" onclick="switchToLogin(event)">Login here</a></p>
+        </form>
+        <p id="registerMessage" style="text-align: center; margin-top: 10px; color: #2e7d32;"></p>
+    </div>
+</div>
+
+<!-- Watermark (decorative, low-opacity) -->
+<div class="watermark" aria-hidden="true"></div>
+
+<div class="container">
+
+    <h1 data-en="🌾 Smart Agro Crop & Price Prediction 🐂" data-hi="🌾 स्मार्ट कृषि फसल और मूल्य भविष्यवाणी 🐂" data-te="🌾 స్మార్ట్ కృషి పంట మరియు ధర సూచన 🐂">🌾 Smart Agro Crop & Price Prediction 🐂</h1>
+
+    <!-- Soil Input -->
+    <div class="card">
+        <h2 data-en="Soil & Climate Inputs" data-hi="मिट्टी और जलवायु इनपुट" data-te="నేల మరియు వాతావరణ ఇన్‌పుట్‌లు">Soil & Climate Inputs</h2>
+        <input id="n" placeholder="Nitrogen (N)" data-en="Nitrogen (N)" data-hi="नाइट्रोजन (N)" data-te="నైట్రోజన్ (N)">
+        <input id="p" placeholder="Phosphorus (P)" data-en="Phosphorus (P)" data-hi="फॉस्फोरस (P)" data-te="ఫాస్ఫరస్ (P)">
+        <input id="k" placeholder="Potassium (K)" data-en="Potassium (K)" data-hi="पोटेशियम (K)" data-te="పొటాషియం (K)">
+        <input id="temp" placeholder="Temperature (°C)" data-en="Temperature (°C)" data-hi="तापमान (°C)" data-te="ఉష్ణోగ్రత (°C)">
+        <input id="hum" placeholder="Humidity (%)" data-en="Humidity (%)" data-hi="आर्द्रता (%)" data-te="ఆర్ద్రత (%)">
+        <input id="ph" placeholder="Soil pH" data-en="Soil pH" data-hi="मिट्टी pH" data-te="నేల pH">
+        <input id="rain" placeholder="Rainfall (mm)" data-en="Rainfall (mm)" data-hi="वर्षा (mm)" data-te="వర్షపాతం (mm)">
+        <button onclick="predictCrop()" data-en="Recommend Crop" data-hi="फसल की सिफारिश" data-te="పంట సిఫారిష్">Recommend Crop</button>
+        <p id="cropResult"></p>
+    </div>
+
+    <!-- Current Price -->
+    <div class="card">
+        <h2 data-en="Current Market Price" data-hi="वर्तमान बाजार मूल्य" data-te="ప్రస్తుత మార్కెట్ ధర">Current Market Price</h2>
+        <input id="cropName" placeholder="Crop Name" data-en="Crop Name" data-hi="फसल का नाम" data-te="పంట పేరు">
+        <button onclick="getPrice()" data-en="Get Price" data-hi="मूल्य प्राप्त करें" data-te="ధర పొందండి">Get Price</button>
+        <p id="priceResult"></p>
+    </div>
+
+    <!-- Price Prediction Chart -->
+    <div class="card">
+        <h2 data-en="Price Prediction (Demo)" data-hi="मूल्य पूर्वानुमान (डेमो)" data-te="ధర సూచన (డెమో)">Price Prediction (Demo)</h2>
+        <canvas id="priceChart"></canvas>
+    </div>
+
+    <!-- Profit Estimation -->
+    <div class="card">
+        <h2 data-en="Profit Estimation" data-hi="लाभ अनुमान" data-te="లాభ అంచనా">Profit Estimation</h2>
+        <input id="price" placeholder="Predicted Price" data-en="Predicted Price" data-hi="पूर्वानुमानित मूल्य" data-te="సూచించిన ధర">
+        <input id="yield" placeholder="Estimated Yield" data-en="Estimated Yield" data-hi="अनुमानित उपज" data-te="అంచనా వేసిన దిగుబడి">
+        <input id="fertilizer" placeholder="Fertilizer Cost" data-en="Fertilizer Cost" data-hi="खाद की लागत" data-te="సారవాహక ఖర్చు">
+        <input id="irrigation" placeholder="Irrigation Cost" data-en="Irrigation Cost" data-hi="सिंचाई लागत" data-te="నీటిపారవాహకత ఖర్చు">
+        <button onclick="estimateProfit()" data-en="Calculate Profit" data-hi="लाभ की गणना करें" data-te="లాభ లెక్కించండి">Calculate Profit</button>
+        <p id="profitResult"></p>
+    </div>
+</div>
+
+<script src="jasdata.js"></script>
+<script>
+// Language Management
+let currentLanguage = 'en';
+const langNames = {
+    'en': 'English',
+    'hi': 'हिंदी',
+    'te': 'తెలుగు'
+};
+
+function toggleLanguageMenu() {
+    const menu = document.getElementById('langMenu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+function changeLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Update button text with language name in that language
+    document.getElementById('langBtn').textContent = langNames[lang];
+    
+    // Hide menu
+    document.getElementById('langMenu').style.display = 'none';
+    
+    // Update all text elements
+    document.querySelectorAll('[data-en]').forEach(element => {
+        if (element.tagName === 'INPUT') {
+            element.placeholder = element.getAttribute(`data-${lang}`);
+        } else if (!element.classList.contains('lang-btn') && !element.classList.contains('lang-option')) {
+            element.textContent = element.getAttribute(`data-${lang}`);
+        }
+    });
+    
+    // Update buttons
+    document.querySelectorAll('button[data-en]').forEach(btn => {
+        btn.textContent = btn.getAttribute(`data-${lang}`);
+    });
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(event) {
+    const selector = document.querySelector('.language-selector');
+    if (selector && !selector.contains(event.target)) {
+        document.getElementById('langMenu').style.display = 'none';
+    }
+});
+
+// ===============================
+// LOGIN & REGISTER FUNCTIONALITY
+// ===============================
+document.getElementById('loginBtn').addEventListener('click', function() {
+    document.getElementById('loginModal').style.display = 'block';
+});
+
+document.getElementById('registerBtn').addEventListener('click', function() {
+    document.getElementById('registerModal').style.display = 'block';
+});
+
+function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+
+function closeRegisterModal() {
+    document.getElementById('registerModal').style.display = 'none';
+}
+
+function switchToLogin(e) {
+    e.preventDefault();
+    closeRegisterModal();
+    document.getElementById('loginModal').style.display = 'block';
+}
+
+function switchToRegister(e) {
+    e.preventDefault();
+    closeLoginModal();
+    document.getElementById('registerModal').style.display = 'block';
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    const loginModal = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+    
+    if (event.target === loginModal) {
+        loginModal.style.display = 'none';
+    }
+    if (event.target === registerModal) {
+        registerModal.style.display = 'none';
+    }
+});
+
+// Handle Login
+async function handleLogin(event) {
+    event.preventDefault();
+    
+    const loginName = document.getElementById('loginName').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const messageEl = document.getElementById('loginMessage');
+    
+    try {
+        const res = await fetch(`${API}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: loginName, password })
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok) {
+            messageEl.style.color = '#2e7d32';
+            messageEl.textContent = 'Login successful! Redirecting...';
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('userName', data.name);
+            if (data.email) {
+                localStorage.setItem('userEmail', data.email);
+            }
+            setTimeout(() => {
+                closeLoginModal();
+                document.getElementById('loginForm').reset();
+                updateAuthUI();
+            }, 1500);
+        } else {
+            messageEl.style.color = '#d32f2f';
+            messageEl.textContent = data.error || 'Login failed';
+        }
+    } catch (error) {
+        messageEl.style.color = '#d32f2f';
+        messageEl.textContent = 'Error: ' + error.message;
+    }
+}
+
+// Handle Register
+async function handleRegister(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+    const messageEl = document.getElementById('registerMessage');
+    
+    if (password !== confirmPassword) {
+        messageEl.style.color = '#d32f2f';
+        messageEl.textContent = 'Passwords do not match!';
+        return;
+    }
+    
+    try {
+        const res = await fetch(`${API}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok) {
+            messageEl.style.color = '#2e7d32';
+            messageEl.textContent = 'Registration successful! Logging you in...';
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('userName', data.name);
+            localStorage.setItem('userEmail', email);
+            setTimeout(() => {
+                closeRegisterModal();
+                document.getElementById('registerForm').reset();
+                updateAuthUI();
+            }, 1500);
+        } else {
+            messageEl.style.color = '#d32f2f';
+            messageEl.textContent = data.error || 'Registration failed';
+        }
+    } catch (error) {
+        messageEl.style.color = '#d32f2f';
+        messageEl.textContent = 'Error: ' + error.message;
+    }
+}
+
+// Update Auth UI
+function updateAuthUI() {
+    const token = localStorage.getItem('authToken');
+    const authLinks = document.querySelector('.auth-links');
+
+    if (token) {
+        authLinks.innerHTML = `
+            <button id="profileBtn" class="auth-link profile-btn" onclick="toggleProfileMenu(event)" aria-label="Open profile menu">👤</button>
+            <button onclick="logout()" class="auth-link logout-btn" style="background: #d32f2f;">Logout</button>
+        `;
+    } else {
+        authLinks.innerHTML = `
+            <button id="loginBtn" class="auth-link">Login</button>
+        `;
+        // Re-attach event listeners
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            document.getElementById('loginModal').style.display = 'block';
+        });
+    }
+}
+
+function getUserHistoryKey() {
+    const userEmail = localStorage.getItem('userEmail');
+    return userEmail ? `userHistory:${userEmail}` : null;
+}
+
+function recordHistory(entry) {
+    const historyKey = getUserHistoryKey();
+    if (!historyKey) {
+        console.warn('No logged-in user, history not recorded.');
+        return;
+    }
+
+    const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+    history.push({ text: entry, time: new Date().toLocaleString() });
+    if (history.length > 7) history.shift();
+    localStorage.setItem(historyKey, JSON.stringify(history));
+}
+
+function getHistory() {
+    const historyKey = getUserHistoryKey();
+    if (!historyKey) {
+        return [];
+    }
+    return JSON.parse(localStorage.getItem(historyKey) || '[]');
+}
+
+function buildProfileMenu() {
+    const userName = localStorage.getItem('userName') || 'User';
+    const userEmail = localStorage.getItem('userEmail') || 'Not available';
+    const history = getHistory();
+    const menu = document.getElementById('profileMenu');
+
+    let historyHtml = '<p class="history-empty">No history yet. Use the app to record actions.</p>';
+    if (history.length) {
+        historyHtml = '<ul>' + history.slice().reverse().map(item => `
+            <li><strong>${item.text}</strong><br><small>${item.time}</small></li>
+        `).join('') + '</ul>';
+    }
+
+    menu.innerHTML = `
+        <div class="profile-section">
+            <h3>Profile</h3>
+            <div class="profile-row"><strong>Name:</strong> ${userName}</div>
+            <div class="profile-row"><strong>Email:</strong> ${userEmail}</div>
+        </div>
+        <div class="history-section">
+            <h3>History</h3>
+            ${historyHtml}
+        </div>
+    `;
+}
+
+function toggleProfileMenu(event) {
+    event.stopPropagation();
+    const menu = document.getElementById('profileMenu');
+    if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+    } else {
+        buildProfileMenu();
+        menu.style.display = 'block';
+    }
+}
+
+function closeProfileMenu() {
+    const menu = document.getElementById('profileMenu');
+    if (menu) menu.style.display = 'none';
+}
+
+// Handle Logout
+function logout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    closeProfileMenu();
+    updateAuthUI();
+}
+
+window.addEventListener('click', function(event) {
+    const menu = document.getElementById('profileMenu');
+    const button = document.getElementById('profileBtn');
+    if (menu && menu.style.display === 'block' && !menu.contains(event.target) && event.target !== button) {
+        menu.style.display = 'none';
+    }
+});
+
+// Check if user is already logged in
+window.addEventListener('load', function() {
+    updateAuthUI();
+});
+</script>
+</body>
+</html>

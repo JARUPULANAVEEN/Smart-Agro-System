@@ -1,0 +1,79 @@
+crop,state,market,price,date
+rice,Telangana,Hyderabad,2200,2026-01-01
+rice,Andhra Pradesh,Vijayawada,2150,2026-01-01
+rice,West Bengal,Kolkata,2250,2026-01-01
+wheat,Punjab,Ludhiana,2400,2026-01-01
+wheat,Haryana,Karnal,2380,2026-01-01
+wheat,Uttar Pradesh,Meerut,2350,2026-01-01
+maize,Karnataka,Davangere,2100,2026-01-01
+maize,Madhya Pradesh,Indore,2050,2026-01-01
+cotton,Maharashtra,Nagpur,6800,2026-01-01
+cotton,Telangana,Warangal,6750,2026-01-01
+groundnut,Gujarat,Rajkot,5500,2026-01-01
+groundnut,Andhra Pradesh,Anantapur,5400,2026-01-01
+ragi,Karnataka,Bangalore,2800,2026-01-01
+jowar,Maharashtra,Jalgaon,2600,2026-01-01
+bajra,Rajasthan,Jaipur,2100,2026-01-01
+tur,Maharashtra,Latur,7200,2026-01-01
+urad,Madhya Pradesh,Indore,6800,2026-01-01
+moong,Rajasthan,Jodhpur,7500,2026-01-01
+sesame,Gujarat,Rajkot,11500,2026-01-01
+sunflower,Karnataka,Chitradurga,5200,2026-01-01
+cardamom,Kerala,Idukki,1450,2026-01-01
+black_pepper,Kerala,Kochi,480,2026-01-01
+coffee,Karnataka,Chikmagalur,210,2026-01-01
+tea,Assam,Dibrugarh,180,2026-01-01
+rice,Telangana,Hyderabad,2400,2027-01-01
+rice,Andhra Pradesh,Vijayawada,2350,2027-01-01
+rice,West Bengal,Kolkata,2450,2027-01-01
+wheat,Punjab,Ludhiana,2600,2027-01-01
+wheat,Haryana,Karnal,2580,2027-01-01
+wheat,Uttar Pradesh,Meerut,2550,2027-01-01
+maize,Karnataka,Davangere,2300,2027-01-01
+maize,Madhya Pradesh,Indore,2250,2027-01-01
+cotton,Maharashtra,Nagpur,7000,2027-01-01
+cotton,Telangana,Warangal,6950,2027-01-01
+groundnut,Gujarat,Rajkot,5700,2027-01-01
+groundnut,Andhra Pradesh,Anantapur,5600,2027-01-01
+ragi,Karnataka,Bangalore,3000,2027-01-01
+jowar,Maharashtra,Jalgaon,2750,2027-01-01
+bajra,Rajasthan,Jaipur,2250,2027-01-01
+tur,Maharashtra,Latur,7500,2027-01-01
+urad,Madhya Pradesh,Indore,7100,2027-01-01
+moong,Rajasthan,Jodhpur,7800,2027-01-01
+sesame,Gujarat,Rajkot,12000,2027-01-01
+sunflower,Karnataka,Chitradurga,5450,2027-01-01
+cardamom,Kerala,Idukki,1550,2027-01-01
+black_pepper,Kerala,Kochi,510,2027-01-01
+coffee,Karnataka,Chikmagalur,225,2027-01-01
+tea,Assam,Dibrugarh,195,2027-01-01
+rice,Telangana,Hyderabad,2600,2028-01-01
+rice,Andhra Pradesh,Vijayawada,2550,2028-01-01
+rice,West Bengal,Kolkata,2650,2028-01-01
+wheat,Punjab,Ludhiana,2800,2028-01-01
+wheat,Haryana,Karnal,2780,2028-01-01
+wheat,Uttar Pradesh,Meerut,2750,2028-01-01
+maize,Karnataka,Davangere,2500,2028-01-01
+maize,Madhya Pradesh,Indore,2450,2028-01-01
+cotton,Maharashtra,Nagpur,7200,2028-01-01
+cotton,Telangana,Warangal,7150,2028-01-01
+groundnut,Gujarat,Rajkot,5900,2028-01-01
+groundnut,Andhra Pradesh,Anantapur,5800,2028-01-01
+ragi,Karnataka,Bangalore,3200,2028-01-01
+jowar,Maharashtra,Jalgaon,2900,2028-01-01
+bajra,Rajasthan,Jaipur,2400,2028-01-01
+tur,Maharashtra,Latur,7800,2028-01-01
+urad,Madhya Pradesh,Indore,7400,2028-01-01
+moong,Rajasthan,Jodhpur,8100,2028-01-01
+sesame,Gujarat,Rajkot,12500,2028-01-01
+sunflower,Karnataka,Chitradurga,5700,2028-01-01
+cardamom,Kerala,Idukki,1650,2028-01-01
+black_pepper,Kerala,Kochi,540,2028-01-01
+coffee,Karnataka,Chikmagalur,240,2028-01-01
+tea,Assam,Dibrugarh,210,2028-01-01
+chana,Punjab,Amritsar,4800,2024-01-01
+chana,Haryana,Panipat,5100,2025-01-01
+chana,Uttar Pradesh,Agra,4950,2026-01-01
+chana,Madhya Pradesh,Bhopal,5300,2027-01-01
+chana,Rajasthan,Ajmer,5600,2028-01-01
+chana,Telangana,Hyderabad,5200,2026-01-01
